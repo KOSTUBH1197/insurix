@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/*
+ * Palette per docs/decisions — insurix-build-spec.md section 8.
+ * --cut is reserved for money lost. Do not repurpose it for errors
+ * or destructive actions elsewhere in the product.
+ */
+:root {
+  --paper: #fcfcfa;
+  --ink: #14181c;
+  --pine: #0e4f4a;
+  --cut: #b3261e;
+  --recovered: #1b7f5a;
+  --rule: #dde1e0;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-pine: var(--pine);
+  --color-cut: var(--cut);
+  --color-recovered: var(--recovered);
+  --color-rule: var(--rule);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+}

@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: insurix
+      POSTGRES_PASSWORD: insurix
+      POSTGRES_DB: insurix
+    ports:
+      - "5432:5432"
+    volumes:
+      - insurix-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U insurix -d insurix"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: insurix
+      MINIO_ROOT_PASSWORD: insurix-local-dev
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - insurix-minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  insurix-postgres-data:
+  insurix-minio-data:
